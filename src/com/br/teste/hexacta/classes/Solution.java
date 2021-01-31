@@ -6,7 +6,7 @@ import java.util.stream.Collectors;
 public class Solution {
 
     /**
-     * Devuele el menor número que no está en el arreglo dado.
+     * Devuele el menor número positivo que no está en el arreglo dado.
      * @param A el arreglo de enteros a analizar
      * @author lauren.dedeu
      * @date 29/01/2021
