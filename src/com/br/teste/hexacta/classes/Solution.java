@@ -15,6 +15,8 @@ public class Solution {
     public int solution(int[] A) {
         this.quicksort(A, 0, A.length - 1);
         List<Integer> list = Arrays.stream(A).filter(x -> x > 0).boxed().collect(Collectors.toCollection(() -> new ArrayList<Integer>()));
+        if(list.isEmpty())
+            return 1;
         for (int i = 1; i < 1000; i++) {
             int finalI = i;
             Optional<Integer> first = list.stream().filter(x -> x == finalI).findFirst();
