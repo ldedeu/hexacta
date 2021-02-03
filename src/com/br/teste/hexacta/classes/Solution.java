@@ -17,13 +17,16 @@ public class Solution {
         IntPredicate positiveNumbers = x -> x <= 1000;
         IntPredicate allowedNumbers = positiveNumbers.and(x -> x >= -1000);
         List<Integer> list = Arrays.stream(A).filter(allowedNumbers).boxed().collect(Collectors.toCollection(ArrayList::new));
+        if (list.isEmpty()) {
+            System.out.println("Não há valores inteiros permitidos para análise. O intervalo permitido é -1000 - 1000");
+            return -1;
+        }
         A = list.stream().mapToInt(i -> i).toArray();
         this.quicksort(A, 0, A.length - 1);
         list = Arrays.stream(A).filter(x -> x > 0).boxed().collect(Collectors.toCollection(ArrayList::new));
-
         if (list.isEmpty())
             return 1;
-        for (int i = 1; i < 1000; i++) {
+        for (int i = 1; i <= 1000; i++) {
             int finalI = i;
             Optional<Integer> first = list.stream().filter(x -> x == finalI).findFirst();
             if (!first.isPresent()) {
@@ -37,14 +40,19 @@ public class Solution {
      * Método para obtener todas las combinaciones de dos números en un arreglo dado,
      * que sumen el mismo valor que tenga la variable dada.
      *
-     * @param A arreglo de valores enteros.
+     * @param C arreglo de valores enteros.
      * @param x valor dado
      * @return combinationResult ArrayList bidimensional con todas las posibles combinaciones.
      * @author lauren.dedeu
      */
-    public ArrayList<ArrayList<String>> combinationsOfX(int[] A, int x) {
+    public ArrayList<ArrayList<String>> combinationsOfX(int[] C, int x) {
         ArrayList<ArrayList<String>> combinationResult = new ArrayList<>();
-        List<Integer> list = Arrays.stream(A).distinct().boxed().collect(Collectors.toList());
+        List<Integer> list = Arrays.stream(C).distinct().boxed().collect(Collectors.toList());
+        if (list.isEmpty()) {
+            System.out.println("Não há combinações possíveis, array vazio.");
+            return combinationResult;
+        }
+
         for (int i = 0; i < list.size(); i++) {
             int temp = list.get(i);
             if (temp + temp == x) {
