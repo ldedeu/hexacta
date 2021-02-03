@@ -12,15 +12,14 @@ public class Solution {
      * @param A el arreglo de enteros a analizar
      * @return Menor número que no este presente en el array.
      * @author lauren.dedeu
-     * @date 29/01/2021
      */
     public int solution(int[] A) {
         IntPredicate positiveNumbers = x -> x <= 1000;
         IntPredicate allowedNumbers = positiveNumbers.and(x -> x >= -1000);
-        List<Integer> list = Arrays.stream(A).filter(allowedNumbers).boxed().collect(Collectors.toCollection(() -> new ArrayList<Integer>()));
+        List<Integer> list = Arrays.stream(A).filter(allowedNumbers).boxed().collect(Collectors.toCollection(ArrayList::new));
         A = list.stream().mapToInt(i -> i).toArray();
         this.quicksort(A, 0, A.length - 1);
-        list = Arrays.stream(A).filter(x -> x > 0).boxed().collect(Collectors.toCollection(() -> new ArrayList<Integer>()));
+        list = Arrays.stream(A).filter(x -> x > 0).boxed().collect(Collectors.toCollection(ArrayList::new));
 
         if (list.isEmpty())
             return 1;
@@ -42,7 +41,6 @@ public class Solution {
      * @param x valor dado
      * @return combinationResult ArrayList bidimensional con todas las posibles combinaciones.
      * @author lauren.dedeu
-     * @date 03/02/2021
      */
     public ArrayList<ArrayList<String>> combinationsOfX(int[] A, int x) {
         ArrayList<ArrayList<String>> combinationResult = new ArrayList<>();
@@ -74,9 +72,8 @@ public class Solution {
      * @param A   arreglo con datos a ordenar
      * @param izq primera posición del Array
      * @param der última posición del Array
-     * @date 29/01/2021
      */
-    public void quicksort(int A[], int izq, int der) {
+    public void quicksort(int[] A, int izq, int der) {
 
         int pivote = A[izq]; // tomamos primer elemento como pivote
         int i = izq;         // i realiza la búsqueda de izquierda a derecha
