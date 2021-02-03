@@ -1,35 +1,71 @@
 package com.br.teste.hexacta.classes;
 
 import java.util.*;
+import java.util.function.IntPredicate;
 import java.util.stream.Collectors;
 
 public class Solution {
 
     /**
      * Devuele el menor número positivo que no está en el arreglo dado.
+     *
      * @param A el arreglo de enteros a analizar
+     * @return Menor número que no este presente en el array.
      * @author lauren.dedeu
      * @date 29/01/2021
-     * @return
      */
     public int solution(int[] A) {
+        IntPredicate positiveNumbers = x -> x <= 1000;
+        IntPredicate allowedNumbers = positiveNumbers.and(x -> x >= -1000);
+        List<Integer> list = Arrays.stream(A).filter(allowedNumbers).boxed().collect(Collectors.toCollection(() -> new ArrayList<Integer>()));
+        A = list.stream().mapToInt(i -> i).toArray();
         this.quicksort(A, 0, A.length - 1);
-        List<Integer> list = Arrays.stream(A).filter(x -> x > 0).boxed().collect(Collectors.toCollection(() -> new ArrayList<Integer>()));
-        if(list.isEmpty())
+        list = Arrays.stream(A).filter(x -> x > 0).boxed().collect(Collectors.toCollection(() -> new ArrayList<Integer>()));
+
+        if (list.isEmpty())
             return 1;
         for (int i = 1; i < 1000; i++) {
             int finalI = i;
             Optional<Integer> first = list.stream().filter(x -> x == finalI).findFirst();
             if (!first.isPresent()) {
-                Optional<Integer> max = list.stream().filter(x -> x > finalI).findFirst();
-                if (max.isPresent()) {
-                    return i;
-                } else {
-                    return -1;
-                }
+                return i;
             }
         }
         return -1;
+    }
+
+    /**
+     * Método para obtener todas las combinaciones de dos números en un arreglo dado,
+     * que sumen el mismo valor que tenga la variable dada.
+     *
+     * @param A arreglo de valores enteros.
+     * @param x valor dado
+     * @return combinationResult ArrayList bidimensional con todas las posibles combinaciones.
+     * @author lauren.dedeu
+     * @date 03/02/2021
+     */
+    public ArrayList<ArrayList<String>> combinationsOfX(int[] A, int x) {
+        ArrayList<ArrayList<String>> combinationResult = new ArrayList<>();
+        List<Integer> list = Arrays.stream(A).distinct().boxed().collect(Collectors.toList());
+        for (int i = 0; i < list.size(); i++) {
+            int temp = list.get(i);
+            if (temp + temp == x) {
+                String numberI = temp + "," + temp;
+                ArrayList<String> arrayTI = new ArrayList<>();
+                arrayTI.add(numberI);
+                combinationResult.add(arrayTI);
+            }
+            for (int j = i + 1; j < list.size(); j++) {
+                int subTemp = list.get(j);
+                if (temp + subTemp == x) {
+                    String number = temp + "," + subTemp;
+                    ArrayList<String> arrayT = new ArrayList<>();
+                    arrayT.add(number);
+                    combinationResult.add(arrayT);
+                }
+            }
+        }
+        return combinationResult;
     }
 
     /**
